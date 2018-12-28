@@ -3,10 +3,18 @@ cmake_minimum_required(VERSION 2.8)
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
 
-
+set(MXNET_HOME "/home/li/zoulb/mxnet")
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
 include_directories(${Boost_INCLUDE_DIRS})
 
+include_directories(
+    ${MXNET_HOME}/3rdparty/dmlc-core/include
+    ${MXNET_HOME}/3rdparty/nnvm/include
+    ${MXNET_HOME}/include
+    ${MXNET_HOME}/cpp-package/include
+    )
+
+link_directories(${MXNET_HOME}/lib)
 
 aux_source_directory(${PROJECT_SOURCE_DIR} SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/mainframe MAIN )
@@ -14,4 +22,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/src/mainframe MAIN )
 add_executable(AIProcSrv
                 ${SRC_LIST}
                 ${MAIN})
-target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread)
+
+
+
+target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread mxnet)
