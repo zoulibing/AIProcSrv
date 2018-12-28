@@ -2,8 +2,9 @@ project(AIProcSrv)
 cmake_minimum_required(VERSION 2.8)
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11 -W")
 
-set(MXNET_HOME "/home/li/zoulb/mxnet")
+set(MXNET_HOME "/home/rock/Downloads/mxnet")
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -18,11 +19,14 @@ link_directories(${MXNET_HOME}/lib)
 
 aux_source_directory(${PROJECT_SOURCE_DIR} SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/mainframe MAIN )
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/rtmpPubliser RTMPPUBLISHER )
+
 
 add_executable(AIProcSrv
                 ${SRC_LIST}
-                ${MAIN})
+                ${MAIN}
+                ${RTMPPUBLISHER})
 
 
 
-target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread mxnet)
+target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread mxnet x264 rtmp asound faac)

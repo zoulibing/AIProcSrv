@@ -7,6 +7,7 @@ using namespace boost;
 
 int main()
 {
+    // Create sgd optimizer
  cout<<""<<endl;
  MainFrame mf;
 
