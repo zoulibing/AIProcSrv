@@ -5,6 +5,7 @@
 using namespace rock;
 using namespace mxnet::cpp;
 #include <rtmppublisher/MemoryPool.h>
+#include <mainframe/monitor.h>
 
 MainFrame::MainFrame():tp(10)
 {
@@ -12,3 +13,12 @@ MainFrame::MainFrame():tp(10)
     MemoryPool pool;
 
 }
+bool MainFrame::test()
+{
+
+    rock:Monitor tt("11","","","");
+    tt.init();
+    tt.start(&tp);
+}
+
+

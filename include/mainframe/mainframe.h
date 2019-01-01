@@ -15,6 +15,7 @@ namespace rock {
     public:
         MainFrame();
         bool init();
+        bool test();
 
 
     private:

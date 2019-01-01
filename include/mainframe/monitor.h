@@ -18,7 +18,7 @@ namespace rock {
     class Monitor
     {
     public:
-        Monitor(string &name,string &cam_uri,string &desc,string publish_uri);
+        Monitor(string name,string cam_uri,string desc,string publish_uri);
         bool init();
         bool start(boost::threadpool::pool *_tpp);
         bool stop();
