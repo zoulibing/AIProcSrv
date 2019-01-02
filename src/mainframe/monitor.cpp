@@ -69,7 +69,7 @@ bool Monitor::proc()
      //显示当前视频
      imshow("读取视频",frame);
      //延时30ms
-     waitKey(30);
+     waitKey(10);
 
 
      //this->vcap.read()
