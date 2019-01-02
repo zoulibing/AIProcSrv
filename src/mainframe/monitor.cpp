@@ -19,7 +19,7 @@ bool Monitor::start(threadpool::pool *_tpp)
     while(!this->vcap.isOpened() && idx<open_cam_retry_times)
     {
         this->_camera_uri="rtmp://202.69.69.180:443/webcast/bshdlive-pc";
-        this->vcap.open(this->_camera_uri);
+        this->vcap.open(0);
         boost::this_thread::sleep(boost::posix_time::seconds(1));
         idx+=1;
 
@@ -44,7 +44,7 @@ void Monitor::on_thread(Monitor * monitor)
     Monitor * mo=(Monitor *)monitor;
     while(mo->enable)
     {
-        std::cout<<"nn"<<std::endl;
+        //std::cout<<"nn"<<std::endl;
         if(mo->proc()==false)
             break;
         boost::this_thread::sleep(boost::posix_time::milliseconds(10));
