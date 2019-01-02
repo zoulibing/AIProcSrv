@@ -2,7 +2,7 @@
 using namespace rock;
 
 Monitor::Monitor(string name,string cam_uri,string desc,string publish_uri)
-    :max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),open_cam_retry_times(3)
+    :max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),open_cam_retry_times(3),executor(10)
 {
 
 }
@@ -26,16 +26,19 @@ bool Monitor::start(threadpool::pool *_tpp)
     }
     if(!this->vcap.isOpened())
         return false;
+    this->enable=true;
 
 
     //begin thread of tpp
-    _tpp->schedule(boost::bind(on_thread, this));
+    //_tpp->schedule(boost::bind(on_thread, this));
+      std::future<void> ff = executor.commit(on_thread,this);
 
 }
 
 
 void Monitor::on_thread(Monitor * monitor)
 {
+    //boost::this_thread
     if(monitor==0x00)
         return;
     Monitor * mo=(Monitor *)monitor;
@@ -61,7 +64,6 @@ bool Monitor::proc()
      //播放完退出
      if (frame.empty()) {
          printf("播放完成\n");
-
 
      }
      //显示当前视频

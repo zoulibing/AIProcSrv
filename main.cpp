@@ -2,7 +2,6 @@
 #include <mainframe/mainframe.h>
 #include <mainframe/monitor.h>
 #include <unistd.h>
-
 #include <opencv2/opencv.hpp>
 #include <iostream>
 using namespace std;
@@ -16,10 +15,10 @@ int testMonitor();
 int main()
 {
     // Create sgd optimizer
- cout<<""<<endl;
- //MainFrame mf;
- //mf.test();
- testMonitor();
+ std::cout<<"xxx"<<std::endl;
+ MainFrame mf;
+ mf.test();
+ //testMonitor();
 
 
  return 0;
@@ -30,7 +29,8 @@ int testMonitor()
 
 
     //读取视频或摄像头
-    VideoCapture capture(0);
+    VideoCapture capture;
+    capture.open(0);
 
     while (true)
     {

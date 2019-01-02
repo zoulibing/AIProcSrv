@@ -8,6 +8,7 @@
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <mainframe/threadpool.h>
 
 using namespace std;
 using namespace boost;
@@ -39,6 +40,7 @@ namespace rock {
         int open_cam_retry_times;
         boost::threadpool::pool *_tpp;
         cv::VideoCapture vcap;
+        std::threadpool executor;
 
 
 
