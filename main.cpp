@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <thread>
+#include <X11/Xlib.h>
 using namespace std;
 using namespace cv;
 using namespace std;
@@ -14,10 +16,12 @@ using namespace boost;
 int testMonitor();
 int main()
 {
+ XInitThreads();
     // Create sgd optimizer
  std::cout<<"xxx"<<std::endl;
  MainFrame mf;
  mf.test();
+
  //testMonitor();
 
 
@@ -30,7 +34,7 @@ int testMonitor()
 
     //读取视频或摄像头
     VideoCapture capture;
-    capture.open(0);
+    capture.open("rtmp://live.hkstv.hk.lxdns.com/live/hks1");
 
     while (true)
     {

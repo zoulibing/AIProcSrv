@@ -16,9 +16,13 @@ MainFrame::MainFrame():tp(10)
 bool MainFrame::test()
 {
 
-    rock:Monitor tt("11","","","");
+    Monitor tt("BTV2","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false);
     tt.init();
     tt.start(&tp);
+
+    Monitor tt1("BTV1","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",true);
+    tt1.init();
+    tt1.start(&tp);
 }
 
 

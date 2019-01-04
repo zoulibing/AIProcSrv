@@ -1,10 +1,12 @@
 #include <mainframe/monitor.h>
 using namespace rock;
 
-Monitor::Monitor(string name,string cam_uri,string desc,string publish_uri)
-    :max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),open_cam_retry_times(3),executor(10)
+Monitor::Monitor(string name,string cam_uri,string desc,string publish_uri,bool cv_show)
+    :_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),open_cam_retry_times(3),executor(10)
 {
-
+ this->_camera_uri=cam_uri;
+ this->_name=name;
+ this->_cvshow=cv_show;
 }
 
 bool Monitor::init()
@@ -16,11 +18,14 @@ bool Monitor::start(threadpool::pool *_tpp)
 {
 
     int idx=0;
+    if(this->_cvshow)
+    namedWindow(this->_name);
+
     while(!this->vcap.isOpened() && idx<open_cam_retry_times)
     {
-        this->_camera_uri="rtmp://202.69.69.180:443/webcast/bshdlive-pc";
-        this->vcap.open(0);
-        boost::this_thread::sleep(boost::posix_time::seconds(1));
+        this->vcap.open(this->_camera_uri);
+        std::chrono::seconds timespan(1);
+        std::this_thread::sleep_for(timespan);
         idx+=1;
 
     }
@@ -30,8 +35,7 @@ bool Monitor::start(threadpool::pool *_tpp)
 
 
     //begin thread of tpp
-    //_tpp->schedule(boost::bind(on_thread, this));
-      std::future<void> ff = executor.commit(on_thread,this);
+     std::future<void> ff = executor.commit(on_thread,this);
 
 }
 
@@ -44,11 +48,11 @@ void Monitor::on_thread(Monitor * monitor)
     Monitor * mo=(Monitor *)monitor;
     while(mo->enable)
     {
-        //std::cout<<"nn"<<std::endl;
-        if(mo->proc()==false)
+         if(mo->proc()==false)
             break;
-        boost::this_thread::sleep(boost::posix_time::milliseconds(10));
-    }
+        std::chrono::milliseconds timespan(10);
+        std::this_thread::sleep_for(timespan);
+     }
      mo->enable=false;
 
 }
@@ -64,12 +68,15 @@ bool Monitor::proc()
      //播放完退出
      if (frame.empty()) {
          printf("播放完成\n");
-
      }
      //显示当前视频
-     imshow("读取视频",frame);
-     //延时30ms
-     waitKey(10);
+     if(this->_cvshow)
+     {
+         imshow(this->_name,frame);
+         //延时30ms
+         waitKey(30);
+     }
+
 
 
      //this->vcap.read()
