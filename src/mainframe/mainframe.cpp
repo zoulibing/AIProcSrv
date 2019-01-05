@@ -20,7 +20,7 @@ bool MainFrame::test()
     tt.init();
     tt.start(&tp);
 
-    Monitor tt1("BTV1","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",true);
+    Monitor tt1("BTV1","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false);
     tt1.init();
     tt1.start(&tp);
 }

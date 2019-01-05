@@ -1,12 +1,15 @@
 #include <mainframe/monitor.h>
+
 using namespace rock;
 
 Monitor::Monitor(string name,string cam_uri,string desc,string publish_uri,bool cv_show)
-    :_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),open_cam_retry_times(3),executor(10)
+    :_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),
+      open_cam_retry_times(3),executor(10),rtmpPublisher(pool)
 {
  this->_camera_uri=cam_uri;
  this->_name=name;
  this->_cvshow=cv_show;
+ this->rtmpPublisher.init();
 }
 
 bool Monitor::init()
@@ -32,6 +35,8 @@ bool Monitor::start(threadpool::pool *_tpp)
     if(!this->vcap.isOpened())
         return false;
     this->enable=true;
+    std::string rtmp_url="rtmp://127.0.0.1/live/"+this->_name;
+    this->rtmpPublisher.connect((char*)rtmp_url.data());
 
 
     //begin thread of tpp
@@ -68,7 +73,9 @@ bool Monitor::proc()
      //播放完退出
      if (frame.empty()) {
          printf("播放完成\n");
+         return false;
      }
+     this->rtmpPublisher.publish(frame);
      //显示当前视频
      if(this->_cvshow)
      {

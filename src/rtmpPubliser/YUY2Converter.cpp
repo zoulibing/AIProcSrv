@@ -28,6 +28,7 @@ char* YUY2Converter::filter(const unsigned char* data, int width, int height) {
             break;
     }
 
+
     return mDataBuf;
 }
 
