@@ -9,7 +9,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <mainframe/threadpool.h>
-
+#include <mainframe/rtmppub.h>
 using namespace std;
 using namespace boost;
 using namespace cv;
@@ -42,6 +42,8 @@ namespace rock {
         boost::threadpool::pool *_tpp;
         cv::VideoCapture vcap;
         std::threadpool executor;
+        RTMPPub rtmpPublisher;
+        MemoryPool pool;
 
 
 
