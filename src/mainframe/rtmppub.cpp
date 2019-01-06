@@ -1,12 +1,15 @@
 #include <mainframe/rtmppub.h>
 #include <iostream>
+#include <boost/pool/pool.hpp>
+
 
 using namespace std;
 using namespace rock;
 
 
 
-RTMPPub::RTMPPub(MemoryPool &m_Pool):mEncoder(640,480),mPool(m_Pool)
+RTMPPub::RTMPPub(MemoryPool &m_Pool,string rtmpurl):rtl(rtmpurl),
+    mEncoder(640,480),metaDataSize(0),metaDataPlayload(NULL)
 {
 
     mRTMP = RTMP_Alloc();
@@ -29,7 +32,7 @@ bool RTMPPub::init()
     std::chrono::milliseconds duration;
    // char *frame;
     //初始化x264encoder
-    this->result = mEncoder.getMetadata();
+    result = mEncoder.getMetadata();
     mMetadata = packager.metadata(mDataBuf, result.second, result.first);
     //mSource.getNextFrame(); // warm-up
 
@@ -37,53 +40,43 @@ bool RTMPPub::init()
 bool RTMPPub::publish(cv::Mat im)
 {
 
-    //cv mat RGB->YUV I420
-    //X264encoder
-    Mat base;
-    cv::resize(im,base,cv::Size(640,480));
-    cv::Mat yuvMat;
-
-    cv::cvtColor(base,yuvMat,CV_BGR2YUV_I420);
-
-    //printf("im height=%d,width=%d ,size=%d, yuvMat size=%d \r",im.rows,im.cols,im.total(),yuvMat.total());
-    //return true;
-
-
+    std::cout << "rtmp="<<rtl<< std::endl;
     if (!RTMP_IsConnected(mRTMP)) {
-        std::cout << "can not connect to server" << std::endl;
+        std::cout << "can not connect to server===" <<rtl<< std::endl;
         return false;
     }
-
-
+    //return true;
+    Mat base,yuvMat;
+    cv::resize(im,base,cv::Size(640,480));
+    cv::cvtColor(base,yuvMat,CV_BGR2YUV_I420);
+    if(yuvMat.empty())
+        return false;
     char *frame=(char*)yuvMat.data;
+
     //publish metadata
     result = mEncoder.encode(frame);
+
     if (H264RTMPPackager::isKeyFrame(result.second)) {
         //mQueue.push(mMetadata, true);
-        if (!RTMP_SendPacket(mRTMP, &mMetadata, 1)) {
+        mMetadata.m_nInfoField2 = mRTMP->m_stream_id;
+        mMetadata.m_nTimeStamp = RTMP_GetTime();
+        /*if (!RTMP_SendPacket(mRTMP, &mMetadata, 1)) {
             std::cout << "fail to send packet" << std::endl;
             return false;
-        }
+        }*/
     }
+
 
 
 
     char *buf = mPool.getChunk(packager.getBodyLength(result.first));
     RTMPPacket packet = packager.pack(buf, result.second, result.first);
-    if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
+    packet.m_nInfoField2 = mRTMP->m_stream_id;
+    packet.m_nTimeStamp = RTMP_GetTime();
+    /*if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
         std::cout << "fail to send packet" << std::endl;
         return false;
-    }
-//   // mQueue.push(packet);
-
-//    duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last);
-
-//    if (duration < mInterval) {
-//        msleep((mInterval - duration).count());
-//    }
-//    last = std::chrono::system_clock::now();
-
-
+    }*/
 
     return true;
 }
@@ -111,6 +104,8 @@ bool RTMPPub::connect(char *url)
         RTMP_Close(mRTMP);
         return false;
     }
+    if (!RTMP_IsConnected(mRTMP))
+        return false;
 
     return true;
 }
