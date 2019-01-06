@@ -7,7 +7,7 @@
 
 class MemoryPool {
 public:
-    MemoryPool() { memset(mList, 0, 8 * sizeof(char*)); }
+    MemoryPool() { memset(mList, 0, 10 * sizeof(char*)); }
 
     ~MemoryPool();
 
@@ -18,8 +18,8 @@ private:
     int getIndex(int bytes) const;
 private:
     std::mutex mMutex;
-    char *mList[8];
-    static const int mTable[8];
+    char *mList[10];
+    static const int mTable[10];
 };
 
 #endif

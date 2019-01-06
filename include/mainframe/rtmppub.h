@@ -14,7 +14,7 @@ namespace rock {
 class RTMPPub
 {
 public:
-    RTMPPub(MemoryPool &m_Pool);
+    RTMPPub(MemoryPool &m_Pool,string rtmpur);
     ~RTMPPub();
     bool init();
     bool publish(cv::Mat im);
@@ -27,7 +27,11 @@ private:
     RTMPPacket getRtmpPacket(char *buf);
     char mDataBuf[256];
     std::pair<int, char*> result;
-    MemoryPool &mPool;
+    MemoryPool mPool;
+    string rtl;
+    int metaDataSize;
+    char * metaDataPlayload;
+
 
 
 };

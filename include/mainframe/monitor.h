@@ -19,7 +19,7 @@ namespace rock {
     class Monitor
     {
     public:
-        Monitor(string name,string cam_uri,string desc,string publish_uri,bool cv_show);
+        Monitor(string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps);
         bool init();
         bool start(boost::threadpool::pool *_tpp);
         bool stop();
@@ -44,6 +44,8 @@ namespace rock {
         std::threadpool executor;
         RTMPPub rtmpPublisher;
         MemoryPool pool;
+        std::chrono::milliseconds mInterval;
+        bool isFirstFrame;
 
 
 
