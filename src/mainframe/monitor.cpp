@@ -63,8 +63,8 @@ void Monitor::on_thread(Monitor * monitor)
 
     while(mo->enable)
     {
-         if(mo->proc()==false)
-            break;
+         mo->proc();
+
          duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last);
 
          if (duration < mo->mInterval) {
