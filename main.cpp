@@ -6,6 +6,7 @@
 #include <iostream>
 #include <thread>
 #include <X11/Xlib.h>
+
 using namespace std;
 using namespace cv;
 using namespace std;
