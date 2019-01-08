@@ -23,12 +23,13 @@ bool MainFrame::test()
     Monitor tt("cc","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,20);
     tt.init();
     tt.start(&tp);
-    Monitor tt2("cc2","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,30);
+    /*Monitor tt2("cc2","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,30);
     tt2.init();
     tt2.start(&tp);
     Monitor tt3("cc3","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false,20);
     tt3.init();
-    tt3.start(&tp);
+    tt3.start(&tp);*/
+    getchar();
 
 
 }

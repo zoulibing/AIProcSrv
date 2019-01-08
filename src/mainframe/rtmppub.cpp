@@ -40,11 +40,13 @@ bool RTMPPub::init()
 bool RTMPPub::publish(cv::Mat im)
 {
 
-    std::cout << "rtmp="<<rtl<< std::endl;
+    //std::cout << "rtmp="<<rtl<< std::endl;
     if (!RTMP_IsConnected(mRTMP)) {
         std::cout << "can not connect to server===" <<rtl<< std::endl;
         return false;
     }
+    //std::cout << "rtmpxxxx"<< std::endl;
+
     //return true;
     Mat base,yuvMat;
     cv::resize(im,base,cv::Size(640,480));
@@ -52,6 +54,7 @@ bool RTMPPub::publish(cv::Mat im)
     if(yuvMat.empty())
         return false;
     char *frame=(char*)yuvMat.data;
+    //std::cout << "rtmpxxxx"<< std::endl;
 
     //publish metadata
     result = mEncoder.encode(frame);
@@ -60,10 +63,10 @@ bool RTMPPub::publish(cv::Mat im)
         //mQueue.push(mMetadata, true);
         mMetadata.m_nInfoField2 = mRTMP->m_stream_id;
         mMetadata.m_nTimeStamp = RTMP_GetTime();
-        /*if (!RTMP_SendPacket(mRTMP, &mMetadata, 1)) {
+        if (!RTMP_SendPacket(mRTMP, &mMetadata, 1)) {
             std::cout << "fail to send packet" << std::endl;
             return false;
-        }*/
+        }
     }
 
 
@@ -73,10 +76,10 @@ bool RTMPPub::publish(cv::Mat im)
     RTMPPacket packet = packager.pack(buf, result.second, result.first);
     packet.m_nInfoField2 = mRTMP->m_stream_id;
     packet.m_nTimeStamp = RTMP_GetTime();
-    /*if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
+    if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
         std::cout << "fail to send packet" << std::endl;
         return false;
-    }*/
+    }
 
     return true;
 }

@@ -44,7 +44,7 @@ std::pair<int, char*> H264Encoder::encode(char* frame) {
     mPicture.i_pts = mPts++;
 
     size = x264_encoder_encode(mHandle, &mNal, &temp, &mPicture, &out);
-    std::cout<<"size="<<size<<std::endl;
+    //std::cout<<"size="<<size<<std::endl;
 
     return std::make_pair(size, reinterpret_cast<char*>(mNal->p_payload));
 }

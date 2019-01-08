@@ -30,7 +30,7 @@ bool Monitor::start(threadpool::pool *_tpp)
 
     while(!this->vcap.isOpened() && idx<open_cam_retry_times)
     {
-        this->vcap.open(this->_camera_uri);
+        this->vcap.open(_camera_uri);
         std::chrono::seconds timespan(1);
         std::this_thread::sleep_for(timespan);
         idx+=1;
@@ -39,7 +39,7 @@ bool Monitor::start(threadpool::pool *_tpp)
     if(!this->vcap.isOpened())
         return false;
     this->enable=true;
-    std::string rtmp_url="rtmp://127.0.0.1/live/"+this->_name;
+    std::string rtmp_url="rtmp://localhost/live/"+this->_name;
     if(this->rtmpPublisher.connect((char*)rtmp_url.data())==false)
         return false;
     std::cout<<"successed connected ,rtmp_url="<<rtmp_url<<std::endl;
