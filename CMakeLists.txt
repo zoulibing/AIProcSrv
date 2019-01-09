@@ -23,11 +23,14 @@ link_directories(${MXNET_HOME}/lib)
 aux_source_directory(${PROJECT_SOURCE_DIR} SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/mainframe MAIN )
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/rtmpPubliser RTMPPUBLISHER )
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/mp  MP )
+
 
 
 add_executable(AIProcSrv
                 ${SRC_LIST}
                 ${MAIN}
+                ${MP}
                 ${RTMPPUBLISHER})
 
 

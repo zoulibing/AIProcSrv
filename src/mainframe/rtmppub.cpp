@@ -1,6 +1,7 @@
 #include <mainframe/rtmppub.h>
 #include <iostream>
 #include <boost/pool/pool.hpp>
+//#include <mp/MemoryPool.h>
 
 
 using namespace std;
@@ -8,9 +9,11 @@ using namespace rock;
 
 
 
-RTMPPub::RTMPPub(MemoryPool &m_Pool,string rtmpurl):rtl(rtmpurl),
-    mEncoder(640,480),metaDataSize(0),metaDataPlayload(NULL)
+RTMPPub::RTMPPub(MemoryPool &m_Pool,string rtmpurl):rtl(rtmpurl),mPool(m_Pool),
+    mEncoder(640,480),metaDataSize(0),metaDataPlayload(NULL),pool(NULL)
 {
+    pool=new IMemoryPool();
+    pool->report();
 
     mRTMP = RTMP_Alloc();
     RTMP_Init(mRTMP);
@@ -71,16 +74,17 @@ bool RTMPPub::publish(cv::Mat im)
 
 
 
-
-    char *buf = mPool.getChunk(packager.getBodyLength(result.first));
+    char *buf=(char *)pool->malloc(packager.getBodyLength(result.first));
+    //char *buf = mPool(packager.getBodyLength(result.first));
     RTMPPacket packet = packager.pack(buf, result.second, result.first);
     packet.m_nInfoField2 = mRTMP->m_stream_id;
     packet.m_nTimeStamp = RTMP_GetTime();
     if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
+        pool->free(buf);
         std::cout << "fail to send packet" << std::endl;
         return false;
     }
-
+    pool->free(buf);
     return true;
 }
 

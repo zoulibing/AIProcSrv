@@ -6,6 +6,7 @@
 #include <rtmppublisher/H264RTMPPackager.h>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <mp/MemoryPool.h>
 #include <rtmppublisher/MemoryPool.h>
 using namespace cv;
 using namespace std;
@@ -27,10 +28,12 @@ private:
     RTMPPacket getRtmpPacket(char *buf);
     char mDataBuf[256];
     std::pair<int, char*> result;
-    MemoryPool mPool;
+    //MemoryPool mPool;
     string rtl;
     int metaDataSize;
     char * metaDataPlayload;
+    MemoryPool &mPool;
+    IMemoryPool* pool;
 
 
 

@@ -10,6 +10,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <mainframe/threadpool.h>
 #include <mainframe/rtmppub.h>
+#include <rtmppublisher/MemoryPool.h>
 using namespace std;
 using namespace boost;
 using namespace cv;
