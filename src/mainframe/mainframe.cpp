@@ -10,7 +10,7 @@ using namespace mxnet::cpp;
 #include <mainframe/monitor.h>
 #include <unistd.h>
 
-MainFrame::MainFrame():tp(10)
+MainFrame::MainFrame():tp(20)
 {
     Optimizer* opt = OptimizerRegistry::Find("sgd");
     MemoryPool pool;
