@@ -6,9 +6,9 @@ using namespace rock;
 using namespace std;
 
 
-Monitor::Monitor(string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps)
-    :isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),_tpp(0x00),
-      open_cam_retry_times(3),executor(10),rtmpPublisher(pool,name),mInterval(1000 / fps)
+Monitor::Monitor(std::threadpool &tp,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps)
+    :isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
+      open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps)
 {
  this->_camera_uri=cam_uri;
  this->_name=name;
@@ -21,7 +21,7 @@ bool Monitor::init()
 
 }
 
-bool Monitor::start(threadpool::pool *_tpp)
+bool Monitor::start()
 {
 
     int idx=0;
