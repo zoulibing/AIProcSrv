@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Config>
+<Name>1号</Name>
+<Desc>AI服务器,边缘计算</Desc>
+<ID>1</ID>
+<MediaSrvIP>127.0.0.1 </MediaSrvIP>
+<MediaSrvPort>8391</MediaSrvPort>
+<cams>
+  <cam id="1" name="HSTV1">
+  <type>0</type>
+  <url>http://</url>
+  <dscript>香港卫视1</dscript>
+  <services >
+    <service>
+     <Name>service1</Name>
+     <IP>127.0.0.1</IP>
+     <Port>9090</Port>
+     <Desc>Pedestrain detection</Desc>
+     <Visible>1</Visible>
+    </service>
+
+    <service>
+     <Name>service2</Name>
+     <IP>127.0.0.1</IP>
+     <Port>9090</Port>
+     <Desc>Pedestrain detection</Desc>
+     <Visible>1</Visible>
+    </service>
+  </services>
+ </cam>
+</cams>
+</Config>

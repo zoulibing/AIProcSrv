@@ -2,6 +2,9 @@
 #define I_AIENGINE
 #include <opencv2/opencv.hpp>
 using namespace cv;
+
+
+
 class IAIEngine
 {
     virtual bool init()=0;
@@ -10,7 +13,7 @@ class IAIEngine
     virtual bool setStatus()=0;
     virtual bool setTask()=0;
 
-}
+};
 
 #endif // I_AIENGINE
 
