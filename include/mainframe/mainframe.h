@@ -6,7 +6,7 @@
 #include <mainframe/threadpool.h>
 #include <map>
 #include <mainframe/monitor.h>
-#define CONFIG_PATH "/home/li/zoulb/AIProcSrv/build/config.xml"
+#define CONFIG_PATH "./config.xml"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <iostream>
@@ -24,21 +24,23 @@ namespace rock {
     public:
         MainFrame();
         bool init();
+        bool start();
+        bool stop();
         bool test();
 
 
     private:
         //boost::threadpool::pool tp;
         bool readConfig();
-        bool addNewMonitor(int id,string name,int type,string cam_url,string desc);
+        //bool addNewMonitor(int id,string name,int type,string cam_url,string desc);
         bool removeMonitor(int id);
         bool stopMonitor(int id);
         bool saveConfig();
         std::threadpool tp;
         int id;
-        map<int,Monitor> monitors;
-        std::string m_media_srv_ip;
-        int m_median_srv_port;
+        map<int,Monitor*> monitors;
+        std::string m_main_srv_ip;
+        int m_main_srv_port;
         std::string name;
         std::string desc;
         bool enable;

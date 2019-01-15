@@ -6,8 +6,9 @@ using namespace rock;
 using namespace std;
 
 
-Monitor::Monitor(std::threadpool &tp,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps)
-    :isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
+Monitor::Monitor(std::threadpool &tp,string name,
+                 string cam_uri,string desc,string publish_uri,
+                 bool cv_show,int fps):isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
       open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps)
 {
  this->_camera_uri=cam_uri;
@@ -19,6 +20,7 @@ Monitor::Monitor(std::threadpool &tp,string name,string cam_uri,string desc,stri
 bool Monitor::init()
 {
 
+    return true;
 }
 
 bool Monitor::start()
@@ -43,11 +45,20 @@ bool Monitor::start()
     if(this->rtmpPublisher.connect((char*)rtmp_url.data())==false)
         return false;
     std::cout<<"successed connected ,rtmp_url="<<rtmp_url<<std::endl;
-
-
     //begin thread of tpp
      std::future<void> ff = executor.commit(on_thread,this);
+     return true;
 
+}
+bool Monitor::stop()
+{
+    this->enable=false;
+    if(vcap.isOpened())
+        vcap.release();
+
+
+
+    return true;
 }
 
 

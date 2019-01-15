@@ -18,11 +18,38 @@ MainFrame::MainFrame():tp(20)
     //
 
 }
-bool MainFrame::startMonitor()
+bool MainFrame::start()
+{
+      map<int,ptree>::iterator it;
+      for(it=cams_config.begin();it!=cams_config.end();++it)
+      {
+          int id=(int)it->first;
+          ptree cam = it->second;
+          string name=cam.get<string>("name");
+          string cam_url=cam.get<string>("url");
+          string desc=cam.get<string>("dscript");
+          string publish_url=cam.get<string>("publish");
+          int isshow=cam.get<int>("isshow");
+          bool show=(isshow==1?true:false);
+          int fps=cam.get<int>("fps");
+          Monitor *mo=new Monitor(tp,name,cam_url,desc,publish_url,show,fps);
+
+          if(mo->init() && mo->start())
+              monitors.insert(std::make_pair(id,mo));
+          else
+              mo->stop();
+          sleep(1);
+
+      }
+
+    return true;
+}
+bool MainFrame::stop()
 {
 
     return true;
 }
+
 bool MainFrame::saveConfig()
 {
 
@@ -30,7 +57,6 @@ bool MainFrame::saveConfig()
 }
 bool MainFrame::readConfig()
 {
-
     ptree pt;
     //open xml and read information to pt
     read_xml(CONFIG_PATH, pt);
@@ -38,9 +64,9 @@ bool MainFrame::readConfig()
     name = pt.get<string>("Config.Name");
     desc = pt.get<string>("Config.Desc");
     id=pt.get<int>("Config.ID");
-    m_median_srv_port = pt.get<int>("Config.MediaSrvPort");
-    m_media_srv_ip=pt.get<string>("Config.MediaSrvIP");
-    std::cout<<"id="<<this->id<<" name="<<this->name<<" Desc="<<desc<<"MediaSrvPort"<<m_median_srv_port<<"MediaSrvIP"<<m_media_srv_ip<<std::endl;
+    m_main_srv_port = pt.get<int>("Config.MainSrvPort");
+    m_main_srv_ip=pt.get<string>("Config.MainSrvIP");
+    //std::cout<<"id="<<this->id<<" name="<<this->name<<" Desc="<<desc<<"MediaSrvPort"<<m_median_srv_port<<"MediaSrvIP"<<m_media_srv_ip<<std::endl;
     ptree oRoot = pt.get_child("Config.cams");
     for(ptree::iterator it = oRoot.begin(); it != oRoot.end(); it++)
     {
@@ -49,6 +75,7 @@ bool MainFrame::readConfig()
         cams_config.insert(std::make_pair(cam_id,cam));
     }
 
+    //
     //https://blog.csdn.net/dgyanyong/article/details/45242243
     return true;
 }
