@@ -3,12 +3,9 @@
 #include <mainframe/monitor.h>
 #include <unistd.h>
 #include <opencv2/opencv.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <iostream>
 
 using namespace std;
-using namespace boost::property_tree;
+
 using namespace rock;
 using namespace cv;
 
@@ -20,6 +17,16 @@ MainFrame::MainFrame():tp(20)
     //init config
     //
 
+}
+bool MainFrame::startMonitor()
+{
+
+    return true;
+}
+bool MainFrame::saveConfig()
+{
+
+    return true;
 }
 bool MainFrame::readConfig()
 {
@@ -35,9 +42,11 @@ bool MainFrame::readConfig()
     m_media_srv_ip=pt.get<string>("Config.MediaSrvIP");
     std::cout<<"id="<<this->id<<" name="<<this->name<<" Desc="<<desc<<"MediaSrvPort"<<m_median_srv_port<<"MediaSrvIP"<<m_media_srv_ip<<std::endl;
     ptree oRoot = pt.get_child("Config.cams");
-    for(ptree::iterator it = oRoot.begin(); it != oRoot.end(); it++){
-            string sTmp;
-            sTmp.clear();
+    for(ptree::iterator it = oRoot.begin(); it != oRoot.end(); it++)
+    {
+        ptree cam = it->second;
+        int cam_id=cam.get<int>("id");
+        cams_config.insert(std::make_pair(cam_id,cam));
     }
 
     //https://blog.csdn.net/dgyanyong/article/details/45242243

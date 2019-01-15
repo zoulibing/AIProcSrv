@@ -7,7 +7,10 @@
 #include <map>
 #include <mainframe/monitor.h>
 #define CONFIG_PATH "/home/li/zoulb/AIProcSrv/build/config.xml"
-
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <iostream>
+using namespace boost::property_tree;
 
 
 
@@ -27,6 +30,10 @@ namespace rock {
     private:
         //boost::threadpool::pool tp;
         bool readConfig();
+        bool addNewMonitor(int id,string name,int type,string cam_url,string desc);
+        bool removeMonitor(int id);
+        bool stopMonitor(int id);
+        bool saveConfig();
         std::threadpool tp;
         int id;
         map<int,Monitor> monitors;
@@ -35,7 +42,8 @@ namespace rock {
         std::string name;
         std::string desc;
         bool enable;
-        FileNode cams_config;
+        map<int,ptree> cams_config;
+
 
 
     };
