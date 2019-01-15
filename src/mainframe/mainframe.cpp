@@ -1,19 +1,19 @@
 #include <mainframe/mainframe.h>
 //#include "mxnet/"
-#include <mxnet-cpp/MxNetCpp.h>
+//#include <mxnet-cpp/MxNetCpp.h>
 //#include <mxnet-cpp/MxNetCpp.h>
 
 using namespace rock;
 
-using namespace mxnet::cpp;
+//using namespace mxnet::cpp;
 #include <rtmppublisher/MemoryPool.h>
 #include <mainframe/monitor.h>
 #include <unistd.h>
 
 MainFrame::MainFrame():tp(20)
 {
-    Optimizer* opt = OptimizerRegistry::Find("sgd");
-    MemoryPool pool;
+    //Optimizer* opt = OptimizerRegistry::Find("sgd");
+    //MemoryPool pool;
 
 }
 bool MainFrame::test()
