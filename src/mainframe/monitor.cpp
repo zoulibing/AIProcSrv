@@ -8,12 +8,16 @@ using namespace std;
 
 Monitor::Monitor(std::threadpool &tp,string name,
                  string cam_uri,string desc,string publish_uri,
-                 bool cv_show,int fps):isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
-      open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps)
+                 bool cv_show,int fps,int videoType):isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
+      open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps),videoType(0)
 {
  this->_camera_uri=cam_uri;
  this->_name=name;
  this->_cvshow=cv_show;
+ this->_publish_uri=publish_uri;
+ this->_desc=desc;
+ this->videoType=videoType;
+
  this->rtmpPublisher.init();
 }
 
@@ -32,7 +36,16 @@ bool Monitor::start()
 
     while(!this->vcap.isOpened() && idx<open_cam_retry_times)
     {
-        this->vcap.open(_camera_uri);
+        if(videoType==1)
+        {
+            std::string::size_type sz;   // alias of size_t
+            int camra_id = std::stoi (_camera_uri,&sz);
+            this->vcap.open(camra_id);
+        }else{
+            this->vcap.open(_camera_uri);
+        }
+
+
         std::chrono::seconds timespan(1);
         std::this_thread::sleep_for(timespan);
         idx+=1;
@@ -41,12 +54,12 @@ bool Monitor::start()
     if(!this->vcap.isOpened())
         return false;
     this->enable=true;
-    std::string rtmp_url="rtmp://localhost/live/"+this->_name;
-    if(this->rtmpPublisher.connect((char*)rtmp_url.data())==false)
+    std::string rtmp_url=this->_publish_uri;
+    if(this->rtmpPublisher.connect((char*)_publish_uri.data())==false)
         return false;
     std::cout<<"successed connected ,rtmp_url="<<rtmp_url<<std::endl;
     //begin thread of tpp
-     std::future<void> ff = executor.commit(on_thread,this);
+    std::future<void> ff = executor.commit(on_thread,this);
      return true;
 
 }
@@ -106,7 +119,7 @@ bool Monitor::proc()
         {
          isFirstFrame=false;
          return true;
-     }
+       }
     try {
 
      this->rtmpPublisher.publish(frame);

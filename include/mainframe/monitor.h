@@ -20,7 +20,7 @@ namespace rock {
     class Monitor
     {
     public:
-        Monitor(std::threadpool &tp,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps);
+        Monitor(std::threadpool &tp,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps,int videoType);
         bool init();
         bool start();
         bool stop();
@@ -41,6 +41,7 @@ namespace rock {
         int enable;
         int open_cam_retry_times;
         cv::VideoCapture vcap;
+        int videoType;
         std::threadpool &executor;
         RTMPPub rtmpPublisher;
         MemoryPool pool;

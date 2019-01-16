@@ -36,7 +36,8 @@ bool MainFrame::start()
           int isshow=cam.get<int>("isshow");
           bool show=(isshow==1?true:false);
           int fps=cam.get<int>("fps");
-          Monitor *mo=new Monitor(tp,name,cam_url,desc,publish_url,show,fps);
+          int videoType=cam.get<int>("type");
+          Monitor *mo=new Monitor(tp,name,cam_url,desc,publish_url,show,fps,videoType);
 
           if(mo->init() && mo->start())
           {
@@ -94,16 +95,16 @@ bool MainFrame::test()
 {
     readConfig();
 
-    Monitor tt1(tp,"BTV1","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false,25);
+    Monitor tt1(tp,"BTV1","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false,25,0);
     tt1.init();
     tt1.start();
-    Monitor tt(tp,"cc","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,20);
+    Monitor tt(tp,"cc","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,20,0);
     tt.init();
     tt.start();
-    Monitor tt2(tp,"cc2","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,30);
+    Monitor tt2(tp,"cc2","rtmp://live.hkstv.hk.lxdns.com/live/hks2","","",false,30,0);
     tt2.init();
     tt2.start();
-    Monitor tt3(tp,"cc3","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false,20);
+    Monitor tt3(tp,"cc3","rtmp://live.hkstv.hk.lxdns.com/live/hks1","","",false,20,0);
     tt3.init();
     tt3.start();
     while(getchar()!='e')

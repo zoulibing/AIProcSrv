@@ -24,6 +24,7 @@ aux_source_directory(${PROJECT_SOURCE_DIR} SRC_LIST)
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/mainframe MAIN )
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/rtmpPubliser RTMPPUBLISHER )
 aux_source_directory(${PROJECT_SOURCE_DIR}/src/mp  MP )
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/thirft-gen   THRIFTGEN )
 
 
 
@@ -31,8 +32,11 @@ add_executable(AIProcSrv
                 ${SRC_LIST}
                 ${MAIN}
                 ${MP}
-                ${RTMPPUBLISHER})
+                ${RTMPPUBLISHER}
+                ${THRIFTGEN}
+
+ )
 
 
 
-target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread -lX11 mxnet x264 rtmp asound faac ${OpenCV_LIBS})
+target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread -lX11 mxnet x264 rtmp thrift asound faac ${OpenCV_LIBS})

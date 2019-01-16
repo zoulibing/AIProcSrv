@@ -18,10 +18,12 @@ int testMonitor();
 int main()
 {
  XInitThreads();
+
     // Create sgd optimizer
  std::cout<<"xxx"<<std::endl;
  MainFrame mf;
  //mf.test();
+
  mf.init();
  mf.start();
  while(getchar()!='e')
