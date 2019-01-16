@@ -45,6 +45,7 @@ namespace rock {
         std::string desc;
         bool enable;
         map<int,ptree> cams_config;
+        boost::mutex m_lock;
 
 
 

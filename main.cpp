@@ -21,7 +21,15 @@ int main()
     // Create sgd optimizer
  std::cout<<"xxx"<<std::endl;
  MainFrame mf;
- mf.test();
+ //mf.test();
+ mf.init();
+ mf.start();
+ while(getchar()!='e')
+ {
+     usleep(1 * 1000);
+ }
+ std::cout<<"exit..++++++++++++.."<<std::endl;
+
 
  //testMonitor();
 

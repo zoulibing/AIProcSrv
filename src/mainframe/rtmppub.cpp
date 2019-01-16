@@ -28,6 +28,8 @@ RTMPPub::~RTMPPub()
         }
         RTMP_Free(mRTMP);
     }
+    if(pool)
+       delete pool;
 }
 
 bool RTMPPub::init()

@@ -18,6 +18,10 @@ MainFrame::MainFrame():tp(20)
     //
 
 }
+bool MainFrame::init()
+{
+    return readConfig();
+}
 bool MainFrame::start()
 {
       map<int,ptree>::iterator it;
@@ -35,7 +39,13 @@ bool MainFrame::start()
           Monitor *mo=new Monitor(tp,name,cam_url,desc,publish_url,show,fps);
 
           if(mo->init() && mo->start())
+          {
+
+              m_lock.lock();
               monitors.insert(std::make_pair(id,mo));
+              m_lock.unlock();
+              std::cout<<"MainFrame::start"<<std::endl;
+          }
           else
               mo->stop();
           sleep(1);
@@ -72,6 +82,7 @@ bool MainFrame::readConfig()
     {
         ptree cam = it->second;
         int cam_id=cam.get<int>("id");
+
         cams_config.insert(std::make_pair(cam_id,cam));
     }
 
