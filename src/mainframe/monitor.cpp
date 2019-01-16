@@ -97,6 +97,9 @@ void Monitor::on_thread(Monitor * monitor)
              //msleep((mInterval - duration).count());
          }
          last = std::chrono::system_clock::now();
+
+
+
      }
      mo->enable=false;
 

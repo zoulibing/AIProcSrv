@@ -39,4 +39,4 @@ add_executable(AIProcSrv
 
 
 
-target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread -lX11 mxnet x264 rtmp thrift asound faac ${OpenCV_LIBS})
+target_link_libraries(AIProcSrv  -lboost_system -lboost_thread -lpthread -lX11  x264 rtmp thrift asound faac ${OpenCV_LIBS})

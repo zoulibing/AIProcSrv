@@ -15,7 +15,9 @@ H264Encoder::H264Encoder(int width, int height, int fps, int bitrate): mPts(0) {
     param.i_height = height;
     param.i_fps_den = 1;
     param.i_fps_num = fps;
-    param.i_keyint_max = fps;
+    param.i_keyint_max = fps*2;
+    param.i_keyint_min = fps*2;
+
 
     param.rc.i_rc_method = X264_RC_ABR;
     param.rc.i_bitrate = bitrate;

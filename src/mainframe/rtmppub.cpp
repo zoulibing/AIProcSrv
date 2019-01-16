@@ -34,10 +34,11 @@ RTMPPub::~RTMPPub()
 
 bool RTMPPub::init()
 {
-    std::chrono::milliseconds duration;
+
    // char *frame;
     //初始化x264encoder
     result = mEncoder.getMetadata();
+    memset(mDataBuf,0,sizeof(mDataBuf));
     mMetadata = packager.metadata(mDataBuf, result.second, result.first);
     //mSource.getNextFrame(); // warm-up
 
@@ -102,7 +103,8 @@ bool RTMPPub::connect(char *url)
     if (!RTMP_SetupURL(mRTMP, url)) {
         return false;
     }
-
+    mRTMP->Link.lFlags|=RTMP_LF_LIVE;
+    RTMP_SetBufferMS(mRTMP, 3600);
     RTMP_EnableWrite(mRTMP);
 
     if (!RTMP_Connect(mRTMP, NULL)) {
