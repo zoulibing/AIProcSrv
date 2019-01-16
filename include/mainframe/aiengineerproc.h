@@ -15,12 +15,12 @@ class AIEngineerProc
 public:
      AIEngineerProc();
 
-     bool init();
+     bool start();
+     bool release();
      bool proc(Mat im);
-     bool close();
      bool setStatus();
-
-     bool addTask();
+     bool stopService(int seviceID);
+     bool addService();
      bool enable;
      map<int ,AIService> services;
      boost::mutex m_lock;

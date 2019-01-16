@@ -20,7 +20,7 @@ namespace rock {
             bool start();
             bool stop();
             bool release();
-            bool addTask();
+
 
         private:
             int stand_width;

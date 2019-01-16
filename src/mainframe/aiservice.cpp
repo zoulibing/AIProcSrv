@@ -14,10 +14,6 @@ AIService::AIService(int id,string name,string srv_ip,int srv_port,int stand_w,i
 
 }
 
-bool AIService::addTask()
-{
-
-}
 
 bool AIService::start()
 {
