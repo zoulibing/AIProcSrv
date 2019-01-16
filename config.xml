@@ -1,32 +1,65 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Config>
-<Name>1号</Name>
-<Desc>AI服务器,边缘计算</Desc>
+<Name>1</Name>
+<Desc>AI</Desc>
 <ID>1</ID>
-<MediaSrvIP>127.0.0.1 </MediaSrvIP>
-<MediaSrvPort>8391</MediaSrvPort>
+<MainSrvIP>127.0.0.1</MainSrvIP>
+<MainSrvPort>8391</MainSrvPort>
 <cams>
-  <cam id="1" name="HSTV1">
-  <type>0</type>
-  <url>http://</url>
-  <dscript>香港卫视1</dscript>
-  <services >
-    <service>
-     <Name>service1</Name>
-     <IP>127.0.0.1</IP>
-     <Port>9090</Port>
-     <Desc>Pedestrain detection</Desc>
-     <Visible>1</Visible>
-    </service>
+<cam>
+<id>1</id>
+<name>HSTV1</name>
+<type>0</type>
+<url>rtmp://live.hkstv.hk.lxdns.com/live/hks2</url>
+<dscript>1</dscript>
+<isshow>0</isshow>
+<fps>20</fps>
+<publish>rtmp://localhost/live/HSTV1</publish>
+<services>
+	<service>
+	<Name>service1</Name>
+	<IP>127.0.0.1</IP>
+	<Port>9090</Port>
+	<Desc>"Pedestrain detection"</Desc>
+	<Visible>1</Visible>
+	</service>
+	<service>
+	<Name>service2</Name>
+	<IP>"127.0.0.1"</IP>
+	<Port>9090</Port>
+	<Desc>"Pedestrain detection"</Desc>
+	<Visible>1</Visible>
+	</service>
+</services>
+</cam>
 
-    <service>
-     <Name>service2</Name>
-     <IP>127.0.0.1</IP>
-     <Port>9090</Port>
-     <Desc>Pedestrain detection</Desc>
-     <Visible>1</Visible>
-    </service>
-  </services>
- </cam>
+<cam>
+<id>2</id>
+<name>HSTV2</name>
+<type>1</type>
+<url>0</url>
+<dscript>1</dscript>
+<isshow>0</isshow>
+<fps>25</fps>
+<publish>rtmp://localhost/live/HSTV2</publish>
+<services>
+<service>
+<Name>service1</Name>
+<IP>127.0.0.1</IP>
+<Port>9090</Port>
+<Desc>"Pedestrain detection"</Desc>
+<Visible>1</Visible>
+</service>
+<service>
+<Name>service2</Name>
+<IP>"127.0.0.1"</IP>
+<Port>9090</Port>
+<Desc>"Pedestrain detection"</Desc>
+<Visible>1</Visible>
+</service>
+</services>
+</cam>
+
 </cams>
 </Config>
+
