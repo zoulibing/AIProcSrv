@@ -17,7 +17,7 @@ namespace rock {
 class AIEngineerProc
 {
 public:
-     AIEngineerProc();
+     AIEngineerProc(int camid);
 
      bool start();
      bool release();
@@ -25,11 +25,12 @@ public:
      bool setStatus();
      bool stopService(int seviceID);
      bool addServiceByXML(ptree pt);
-     bool addService(int id,string name,string srv_ip,int srv_port,int stand_w,int stand_h,string desc,bool visible);
+     bool addService(int camid,int id,string name,string srv_ip,int srv_port,int stand_w,int stand_h,string desc,bool visible);
      bool enable;
      map<int ,AIService*> services;
      boost::mutex m_lock;
      ptree m_pt;
+     int cameid;
 
 };
 

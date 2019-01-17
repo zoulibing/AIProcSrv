@@ -21,7 +21,7 @@ namespace rock {
     class Monitor
     {
     public:
-        Monitor(std::threadpool &tp,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps,int videoType);
+        Monitor(std::threadpool &tp,int cam_id,string name,string cam_uri,string desc,string publish_uri,bool cv_show,int fps,int videoType);
         bool init();
         bool start();
         bool stop();

@@ -6,10 +6,10 @@ using namespace rock;
 using namespace std;
 
 
-Monitor::Monitor(std::threadpool &tp,string name,
+Monitor::Monitor(std::threadpool &tp,int cam_id,string name,
                  string cam_uri,string desc,string publish_uri,
                  bool cv_show,int fps,int videoType):isFirstFrame(true),_cvshow(false),max_waiting_ai_result_time(100),no(-1),enable(false),
-      open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps),videoType(0)
+      open_cam_retry_times(3),executor(tp),rtmpPublisher(pool,name),mInterval(1000 / fps),videoType(0),m_aiproc(cam_id)
 {
  this->_camera_uri=cam_uri;
  this->_name=name;
@@ -88,6 +88,8 @@ void Monitor::on_thread(Monitor * monitor)
     while(mo->enable)
     {
          mo->proc();
+
+
          duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last);
           if (duration < mo->mInterval) {
               usleep((mo->mInterval - duration).count()*1000);
