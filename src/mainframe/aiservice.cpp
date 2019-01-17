@@ -36,12 +36,12 @@ AIService::AIService(int camid,int id,string name,string srv_ip,int srv_port,int
          resq.serialID=serialID;
          Respone rps;
          int64_t start=getCurrentTime();
-         client->sendImage(rps,11,123,resq);
-         int64_t end=getCurrentTime();
-         std::cout<<end-start<<std::endl;
-         std::cout<<rps.cameID<<std::endl;
-         std::cout<<rps.serialID<<std::endl;
-         std::cout<<rps.ritems.at(0).x0<<std::endl;
+         client->sendImage(rps,m_camID,serialID,resq);
+//         int64_t end=getCurrentTime();
+//         std::cout<<end-start<<std::endl;
+//         std::cout<<rps.cameID<<std::endl;
+//         std::cout<<rps.serialID<<std::endl;
+//         std::cout<<rps.ritems.at(0).x0<<std::endl;
 
      }
     return cur_result;
