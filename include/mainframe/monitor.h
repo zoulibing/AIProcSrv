@@ -11,7 +11,7 @@
 
 #include <mainframe/rtmppub.h>
 #include <rtmppublisher/MemoryPool.h>
-#include <mainframe/aiengineerproc.h>
+#include <mainframe/aiserviceengeer.h>
 using namespace std;
 using namespace boost;
 using namespace cv;
@@ -26,7 +26,7 @@ namespace rock {
         bool start();
         bool stop();
         bool destroy();
-        AIEngineerProc m_aiproc;
+        AIServiceEngineer m_aiproc;
 
     private:
         string _name;

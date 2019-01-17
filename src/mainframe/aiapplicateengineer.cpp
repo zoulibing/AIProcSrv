@@ -1,4 +1,4 @@
-#include "aiapplicateengineer.h"
+#include <mainframe/aiapplicateengineer.h>
 
 AIApplicateEngineer::AIApplicateEngineer()
 {
