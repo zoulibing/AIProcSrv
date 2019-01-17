@@ -88,18 +88,11 @@ void Monitor::on_thread(Monitor * monitor)
     while(mo->enable)
     {
          mo->proc();
-
          duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - last);
-
-         if (duration < mo->mInterval) {
-             std::chrono::milliseconds timespan((mo->mInterval - duration).count());
-             std::this_thread::sleep_for(timespan);
-             //msleep((mInterval - duration).count());
-         }
+          if (duration < mo->mInterval) {
+              usleep((mo->mInterval - duration).count()*1000);
+          }
          last = std::chrono::system_clock::now();
-
-
-
      }
      mo->enable=false;
 

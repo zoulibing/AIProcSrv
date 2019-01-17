@@ -37,7 +37,13 @@ bool MainFrame::start()
           bool show=(isshow==1?true:false);
           int fps=cam.get<int>("fps");
           int videoType=cam.get<int>("type");
+          ptree oRoot = cam.get_child("services");
           Monitor *mo=new Monitor(tp,name,cam_url,desc,publish_url,show,fps,videoType);
+          if(mo->m_aiproc.addServiceByXML(oRoot))
+          {
+
+          }
+
 
           if(mo->init() && mo->start())
           {

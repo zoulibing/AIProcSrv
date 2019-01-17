@@ -13,7 +13,13 @@ AIService::AIService(int id,string name,string srv_ip,int srv_port,int stand_w,i
     this->visible=visible;
 
 }
-
+ std::vector<Result> AIService::Proc(int serialID,Mat im)
+ {
+     if(transport->isOpen())
+         client->send_sendImage(1,serialID,im.data());
+     this->cur_img_id=serialID;
+     return  NULL;
+ }
 
 bool AIService::start()
 {

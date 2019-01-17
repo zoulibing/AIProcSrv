@@ -10,7 +10,8 @@ using namespace rock;
 
 
 RTMPPub::RTMPPub(MemoryPool &m_Pool,string rtmpurl):rtl(rtmpurl),mPool(m_Pool),
-    mEncoder(640,480),metaDataSize(0),metaDataPlayload(NULL),pool(NULL)
+    mEncoder(640,480),metaDataSize(0),metaDataPlayload(NULL),pool(NULL),
+    aac_mEncoder(44100, 16, 48000)
 {
     pool=new IMemoryPool();
     pool->report();
@@ -46,27 +47,23 @@ bool RTMPPub::init()
 bool RTMPPub::publish(cv::Mat im)
 {
 
-    //std::cout << "rtmp="<<rtl<< std::endl;
-    if (!RTMP_IsConnected(mRTMP)) {
+     if (!RTMP_IsConnected(mRTMP)) {
         std::cout << "can not connect to server===" <<rtl<< std::endl;
         return false;
     }
-    //std::cout << "rtmpxxxx"<< std::endl;
 
-    //return true;
     Mat base,yuvMat;
     cv::resize(im,base,cv::Size(640,480));
     cv::cvtColor(base,yuvMat,CV_BGR2YUV_I420);
     if(yuvMat.empty())
         return false;
     char *frame=(char*)yuvMat.data;
-    //std::cout << "rtmpxxxx"<< std::endl;
+
 
     //publish metadata
     result = mEncoder.encode(frame);
 
     if (H264RTMPPackager::isKeyFrame(result.second)) {
-        //mQueue.push(mMetadata, true);
         mMetadata.m_nInfoField2 = mRTMP->m_stream_id;
         mMetadata.m_nTimeStamp = RTMP_GetTime();
         if (!RTMP_SendPacket(mRTMP, &mMetadata, 1)) {
@@ -93,7 +90,11 @@ bool RTMPPub::publish(cv::Mat im)
 
 RTMPPacket RTMPPub::getRtmpPacket(char *buf)
 {
-
+//    aac_result = aac_mEncoder.getMetadata();
+//    char *buf=(char *)pool->malloc(256);
+//    RTMPPacket packet = aac_packager.metadata(buf, aac_result.second, aac_result.first);
+//    if (!RTMP_SendPacket(mRTMP, &packet, 1)) {
+//    }
 }
 
 
@@ -103,8 +104,8 @@ bool RTMPPub::connect(char *url)
     if (!RTMP_SetupURL(mRTMP, url)) {
         return false;
     }
-    mRTMP->Link.lFlags|=RTMP_LF_LIVE;
-    RTMP_SetBufferMS(mRTMP, 3600);
+    //mRTMP->Link.lFlags|=RTMP_LF_LIVE;
+    //RTMP_SetBufferMS(mRTMP, 3600);
     RTMP_EnableWrite(mRTMP);
 
     if (!RTMP_Connect(mRTMP, NULL)) {
