@@ -5,11 +5,13 @@ using namespace std;
 namespace rock {
 class IAIApplicate
 {
-  virtual void onConfig(string configPath)=0;
-  virtual void onInit(int cam_id)=0;
-  virtual void drawImg()=0;
-  virtual string getName()=0;
-  virtual int  getUNIID()=0;
+    virtual void onConfig(string configPath)=0;
+    virtual void onInit(int cam_id)=0;
+    virtual void drawImg()=0;
+    virtual void run()=0;
+    virtual string getName()=0;
+    virtual int  getUNIID()=0;
+    bool status;
 
 
 };
